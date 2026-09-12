@@ -1,9 +1,6 @@
 # Hitch — Automobile Buying Assistant (Public Profile)
 
-A [Hermes Agent](https://hermes-agent.nousresearch.com) profile that helps a household
-buy the right automobile — not necessarily the flashiest one, but the one that actually
-fits how they live. It turns vague “we like that SUV” energy into a clear shortlist,
-honest tradeoffs, and a buying plan.
+A [Hermes Agent](https://hermes-agent.nousresearch.com) profile that helps you buy the right automobile for you. It turns vague "we like that car" energy into a clear shortlist, honest tradeoffs, and a buying plan. This profile uses Visor.vin's API which is very affordable (I spent about $1.50 getting it working and then fine tuning results for myself). I have zero affiliation with Visor.vin. You will need a local browser set up inside Hermes to pull the vehicle hero photos, which is documented in this profile as well. I built a custom rubric that scores and ranks autos meeting your requirements; this agent also pulls comp prices for the previous six months then shows where the current price lands.
 
 ![Screenshot](assets/profile-screenshot.png)
 
