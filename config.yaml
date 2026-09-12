@@ -1,0 +1,26 @@
+# Hitch — Automobile Buying Assistant (public profile config)
+# ──────────────────────────────────────────────────────────────
+# This is a generic, vehicle-agnostic fork of an internal Bronco-specific pipeline.
+# Personalize for your target automobile by setting TARGET_MAKE / TARGET_MODEL /
+# TARGET_YEARS in .env and supplying value-model.example.json → price-model-default.json.
+
+model: laguna-s-2.1@q4_k_s    # default local LM Studio model; change to whatever you use
+provider: lmstudio
+
+custom_providers:
+  - name: hermes-custom-local
+    base_url: http://127.0.0.1:18765/p/hitch/v1
+    api_key: ${HERMES_CUSTOM_127_0_0_1_18765_API_KEY}
+
+skills:
+  disabled: []   # all bundled skills enabled; disable per-skill via `hermes -p <name> skills disable`
+
+command_allowlist:
+  - execute_code
+  - browser_use
+  - web_search
+
+plugins:
+  enabled: []
+
+_config_version: 42

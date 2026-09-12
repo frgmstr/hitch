@@ -1,0 +1,14 @@
+# Credentials — never commit these. See README.md for how to set them up.
+.env
+.env.*
+
+# Runtime / user-specific data — generated per-machine, not portable across users.
+archives/
+*.db
+cron/output/*
+!cron/output/.gitkeep
+
+# Editor / OS cruft
+*.swp
+.DS_Store
+Thumbs.db
