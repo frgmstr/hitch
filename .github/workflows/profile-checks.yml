@@ -1,0 +1,78 @@
+name: Profile Validation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate profile structure
+        run: |
+          echo "=== Checking required files ==="
+          
+          # Required root-level files
+          for f in README.md SOUL.md config.yaml .env.example; do
+            if [ ! -f "$f" ]; then
+              echo "::error file=$f ::Missing required file: $f"
+              exit 1
+            fi
+            echo "✓ Found: $f"
+          done
+
+          # Required skills directory structure
+          for skill in automobile-report automobile-value-rubric visor-vin-api; do
+            if [ ! -d "skills/research/$skill" ]; then
+              echo "::error file=skills/research/$skill ::Missing required skill directory: $skill"
+              exit 1
+            fi
+            
+            if [ ! -f "skills/research/$skill/SKILL.md" ]; then
+              echo "::error file=skills/research/$skill/SKILL.md ::Missing SKILL.md for: $skill"
+              exit 1
+            fi
+            echo "✓ Found skill: $skill (with SKILL.md)"
+          done
+
+          # Check for .env.example with required variables
+          if ! grep -q "VISOR_API_KEY" .env.example; then
+            echo "::error file=.env.example ::Missing VISOR_API_KEY in .env.example"
+            exit 1
+          fi
+          echo "✓ .env.example contains VISOR_API_KEY"
+
+          # Check config.yaml is valid YAML
+          python -c "import yaml; yaml.safe_load(open('config.yaml'))" || {
+            echo "::error file=config.yaml ::Invalid YAML syntax"
+            exit 1
+          }
+          echo "✓ config.yaml is valid YAML"
+
+          # Validate Python scripts compile
+          find . -name "*.py" -not -path "./__pycache__/*" | while read pyfile; do
+            python -m py_compile "$pyfile" || {
+              echo "::error file=$pyfile ::Python syntax error"
+              exit 1
+            }
+          done
+          echo "✓ All Python scripts compile successfully"
+
+      - name: Check for secrets in commits
+        uses: gitleaks/gitleaks-action@v2
+        continue-on-error: true
+        with:
+          args: "--verbose --redact"
+
+    # Continue even if gitleaks finds issues (it's a warning, not a blocker)

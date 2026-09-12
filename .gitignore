@@ -8,6 +8,11 @@ archives/
 cron/output/*
 !cron/output/.gitkeep
 
+# Python bytecode caches
+__pycache__/
+*.py[cod]
+*.pyc
+
 # Editor / OS cruft
 *.swp
 .DS_Store
