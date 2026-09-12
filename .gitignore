@@ -1,5 +1,6 @@
 # Credentials — never commit these. See README.md for how to set them up.
 .env
+!.env.example
 .env.*
 
 # Runtime / user-specific data — generated per-machine, not portable across users.
